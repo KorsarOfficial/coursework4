@@ -1,0 +1,27 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <a class="btn btn-primary margins" href="{% url 'mail:message_create' %}" role="button">Создать</a>
+        {% for message in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ message.str_text }}</h4>
+                        </div>
+                            <div class="card-body">
+                                <h1 class="card-title pricing-card-title">Тело письма</h1>
+                                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                                <li>{{ message.text|truncatechars:100 }}</li>
+                                </ul>
+                                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'mail:message_detail' message.pk %}" role="button">Просмотреть</a>
+                                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'mail:message_confirm_delete' message.pk %}" role="button">Удалить</a>
+                                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'mail:message_update' message.pk %}" role="button">Редактировать</a>
+                            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

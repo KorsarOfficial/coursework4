@@ -1,0 +1,13 @@
+{% extends 'mail/base.html' %}
+{% block title %}Страница рассылки{% endblock %}
+{% block content %}
+<body>
+    <h1>Информация о рассылке</h1>
+    <p>Дата первой отправки: {{ mailing.first_date_send }}</p>
+    <p>Дата окончания отправки: {{ mailing.end_date_send }}</p>
+    <p>Статус: {{ mailing.status }}</p>
+    <p>Сообщение: {{ mailing.message }}</p>
+    <p>Получатели: {{ mailing.addressees.all }}</p>
+    <a class="btn btn-primary" href="{% url 'mail:mailing_list' %}" role="button">Назад</a>
+</body>
+{% endblock %}
