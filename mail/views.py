@@ -14,11 +14,6 @@ class AddresseesListView(generic.ListView):
     model = Addressees
     context_object_name = "addressees"
 
-    def get_queryset(self):
-        if self.request.user.has_perm("addressees.view_all_addressees"):
-            return Addressees.objects.all()
-        return Addressees.objects.filter(owner=self.request.user)
-
 
 class AddresseesCreateView(generic.CreateView):
     model = Addressees
@@ -35,6 +30,10 @@ class AddresseesUpdateView(generic.UpdateView):
 class AddresseesDeleteView(generic.DeleteView):
     model = Addressees
     success_url = reverse_lazy("mail.addressees_list")
+
+
+class AddresseesDetailView(generic.DetailView):
+    model = Addressees
 
 
 # CRUD для сообщений (Message)

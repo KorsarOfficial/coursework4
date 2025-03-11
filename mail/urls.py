@@ -17,6 +17,7 @@ from .views import (
     MailingDeleteView,
     MessageDetailView,
     MailingDetailView,
+    AddresseesDetailView
 )
 
 app_name = MailConfig.name
@@ -38,6 +39,11 @@ urlpatterns = [
         "addressees/<int:pk>/delete",
         AddresseesDeleteView.as_view(),
         name="addressees_confirm_delete",
+    ),
+    path(
+        "addressees/detail/<int:pk>",
+        AddresseesDetailView.as_view(),
+        name="addressees_detail",
     ),
     path("message/",
          MessageListView.as_view(),

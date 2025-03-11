@@ -6,8 +6,14 @@ class Addressees(models.Model):
     full_name = models.CharField(max_length=255)
     comment = models.TextField(blank=True)
 
+
     def __str__(self):
         return self.email
+
+    class Meta:
+        verbose_name = "Получатель"
+        verbose_name_plural = "Получатели"
+        ordering = ["id"]
 
 
 class Message(models.Model):
@@ -19,17 +25,23 @@ class Message(models.Model):
     text = models.TextField(
         verbose_name="Тело сообщения", help_text="Введите текст сообщения"
     )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец",
+        blank=True,
+        null=True)
 
     def __str__(self):
         return self.str_text
 
 
     class Meta:
-        verbose_name = "Получатель"
-        verbose_name_plural = "Получатели"
+        verbose_name = "Сообщение"
+        verbose_name_plural = "Сообщения"
         ordering = ["id"]
         permissions = [
-            ("view_all_addressees", "Can view all addressees"),
+            ("view_all_message", "Can view all message")
         ]
 
 
