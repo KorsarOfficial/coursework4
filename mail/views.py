@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.utils import timezone
 from mail.models import Addressees, Message, Mailing, SendMail
 from mail.forms import AddresseesForm, MessageForm, MailingForm
-
+from django.http import HttpResponseForbidden
 
 # CRUD для получателей (Recipient)
 
@@ -13,6 +13,11 @@ from mail.forms import AddresseesForm, MessageForm, MailingForm
 class AddresseesListView(generic.ListView):
     model = Addressees
     context_object_name = "addressees"
+
+    def get_queryset(self):
+        if self.request.user.has_perm("addressees.view_all_addressees"):
+            return Addressees.objects.all()
+        return Addressees.objects.filter(owner=self.request.user)
 
 
 class AddresseesCreateView(generic.CreateView):
@@ -38,6 +43,11 @@ class AddresseesDeleteView(generic.DeleteView):
 class MessageListView(generic.ListView):
     model = Message
     context_object_name = "message"
+
+    def get_queryset(self):
+        if self.request.user.has_perm("message.view_all_message"):
+            return Message.objects.all()
+        return Message.objects.filter(owner=self.request.user)
 
 
 class MessageDetailView(generic.DetailView):
@@ -67,6 +77,13 @@ class MessageDeleteView(generic.DeleteView):
 class MailingListView(generic.ListView):
     model = Mailing
     context_object_name = "mailing"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm("mailing.view_all_mailing"):
+            return HttpResponseForbidden(
+                "У вас нет прав на просмотр списка рассылок."
+            )
+        return super().dispatch(request, *args, **kwargs)
 
 
 class MailingCreateView(generic.CreateView):
