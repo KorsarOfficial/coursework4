@@ -1,0 +1,24 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+    <div class="row">
+      <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Список рассылок</h5>
+            <p class="card-text">Посмотреть все рассылки</p>
+            <a href="{% url 'mail:mailing_list' %}" class="btn btn-primary">Перейти</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Список сообщений</h5>
+            <p class="card-text">Посмотреть все сообщения</p>
+            <a href="{% url 'mail:message_list' %}" class="btn btn-primary">Перейти</a>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

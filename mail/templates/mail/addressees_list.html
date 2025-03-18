@@ -1,0 +1,30 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <a class="btn btn-primary margins" href="{% url 'mail:addressees_create' %}" role="button">Создать</a>
+        {% for addressees in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+
+                <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">{{ addressees.full_name }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title pricing-card-title">{{ addressees.email }}</h4>
+                            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                                <li>{{ addressees.comment|truncatechars:100 }}</li>
+                            </ul>
+                            {% if user.is_superuser %}
+                            <a class="btn btn-info margins__buttons" href="{% url 'mail:addressees_detail' addressees.pk %}" role="button">Просмотреть</a>
+                            <a class="btn btn-danger margins__buttons" href="{% url 'mail:addressees_delete' addressees.pk %}" role="button">Удалить</a>
+                            <a class="btn btn-warning" href="{% url 'mail:addressees_update' addressees.pk %}" role="button">Редактировать</a>
+                            {% endif %}
+                        </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

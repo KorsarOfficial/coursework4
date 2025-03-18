@@ -1,0 +1,32 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <a class="btn btn-primary margins" href="{% url 'mail:mailing_create' %}" role="button">Создать</a>
+        {% for mailing in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+
+                <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Рассылка</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-title pricing-card-title">{{ mail.first_date_send }}</p>
+                            <p class="card-title pricing-card-title">{{ mail.end_date_send }}</p>
+                            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                                <li>{{ mail.message|truncatechars:100 }}</li>
+                                <li>{{ mail.addressees.all }}</li>
+                                <li>{{ mail.status }}</li>
+                            </ul>
+
+                            <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'mail:mailing_detail' mailing.pk %}" role="button">Просмотреть</a>
+                            <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'mail:mailing_confirm_delete' mailing.pk %}" role="button">Удалить</a>
+                            <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'mail:mailing_update' mailing.pk %}" role="button">Редактировать</a>
+                        </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
